@@ -3,6 +3,8 @@ package com.developers_recipes.recetario.services.api
 import com.developers_recipes.recetario.utils.Constants.Companion.BASE_URL
 import com.developers_recipes.recetario.utils.Constants.Companion.DEBUG
 import com.developers_recipes.recetario.utils.Constants.Companion.REQUEST_TIMEOUT_DURATION
+import com.developers_recipes.recetario.utils.Constants.Companion.REQUEST_TIMEOUT_UNIT
+import com.developers_recipes.recetario.utils.TokenInterceptor
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -22,7 +24,6 @@ object ApiClient{
                     .enableComplexMapKeySerialization()
                     .setPrettyPrinting()
                     .create()
-
                 baseUrl(BASE_URL)
                 addConverterFactory(GsonConverterFactory.create(gson))
                 client(createRequestInterceptorClient())
@@ -45,16 +46,17 @@ object ApiClient{
             OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                .connectTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
-                .readTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
+                .addInterceptor(TokenInterceptor())
+                .connectTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
+                .readTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
+                .writeTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
                 .build()
         } else {
             OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .connectTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
-                .readTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
-                .writeTimeout(REQUEST_TIMEOUT_DURATION.toLong(), TimeUnit.SECONDS)
+                .connectTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
+                .readTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
+                .writeTimeout(REQUEST_TIMEOUT_DURATION.toLong(), REQUEST_TIMEOUT_UNIT)
                 .build()
         }
     }
