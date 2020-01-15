@@ -4,4 +4,17 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="navigation_drawer_open">Abrir menú</string>
+    <string name="navigation_drawer_close">Cerrar menú</string>
+    <string name="nav_header_title">Nombre Usuario</string>
+    <string name="nav_header_subtitle">usuario@dominio.com</string>
+    <string name="nav_header_desc">Cabecera</string>
+    <string name="action_settings">Ajustes</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_explore">Explore</string>
+    <string name="menu_recipe">Recipe</string>
 </resources>
