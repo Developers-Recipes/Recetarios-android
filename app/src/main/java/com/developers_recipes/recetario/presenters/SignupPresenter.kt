@@ -12,7 +12,7 @@ class SignupPresenter(val view: SignupContract.View): SignupContract.Presenter {
     }
 
     override fun setLastName(lastName: String) {
-        model.setLastname(lastName)
+        model.setLastName(lastName)
     }
 
     override fun setEmail(email: String) {
@@ -24,15 +24,15 @@ class SignupPresenter(val view: SignupContract.View): SignupContract.Presenter {
     }
 
     override fun setPasswordConfirmation(password: String) {
-        model.setPasswordConfimation(password)
+        model.setPasswordConfirmation(password)
     }
 
     override fun showEmailError(error: String) {
         view.showEmailError(error)
     }
 
-    override fun showPasswordError(error: String) {
-        view.showPasswordError(error)
+    override fun showPasswordError(first: Boolean, error: String) {
+        view.showPasswordError(first, error)
     }
 
     override fun enableOrDisableButton(isEnabled: Boolean) {

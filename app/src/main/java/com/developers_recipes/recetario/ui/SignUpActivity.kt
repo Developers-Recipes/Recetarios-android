@@ -10,6 +10,7 @@ import com.developers_recipes.recetario.presenters.SignupPresenter
 import com.kinda.alert.KAlertDialog
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
+
 class SignUpActivity : AppCompatActivity(), SignupContract.View {
 
     private val presenter: SignupContract.Presenter = SignupPresenter(this)
@@ -22,10 +23,6 @@ class SignUpActivity : AppCompatActivity(), SignupContract.View {
 
         btnSignup.isEnabled = false
 
-        this.progressDialog = KAlertDialog(this, KAlertDialog.PROGRESS_TYPE)
-        this.alert = KAlertDialog(this, KAlertDialog.SUCCESS_TYPE)
-        this.alert.titleText = "Sign Up"
-
         setupWatchers()
 
         btnSignup.setOnClickListener { presenter.actionSignUp() }
@@ -37,8 +34,11 @@ class SignUpActivity : AppCompatActivity(), SignupContract.View {
         email.error = error
     }
 
-    override fun showPasswordError(error: String) {
-        password_conf.error = error
+    override fun showPasswordError(first: Boolean, error: String) {
+       if(first)
+           password.error = error
+       else
+           password_conf.error = error
     }
 
     override fun enableOrDisableButton(isEnabled: Boolean) {
@@ -46,6 +46,7 @@ class SignUpActivity : AppCompatActivity(), SignupContract.View {
     }
 
     override fun showProgress() {
+        this.progressDialog = KAlertDialog(this, KAlertDialog.PROGRESS_TYPE)
         this.progressDialog.titleText = "Please wait"
         this.progressDialog.setCancelable(false)
         this.progressDialog.show()
@@ -61,6 +62,7 @@ class SignUpActivity : AppCompatActivity(), SignupContract.View {
     }
 
     override fun showSuccessDialog(message: String) {
+        setupDialog()
         alert.changeAlertType(KAlertDialog.SUCCESS_TYPE)
         alert.contentText = message
         alert.setConfirmClickListener{
@@ -71,9 +73,15 @@ class SignUpActivity : AppCompatActivity(), SignupContract.View {
     }
 
     override fun showErrorDialog(message: String) {
+        setupDialog(KAlertDialog.ERROR_TYPE)
         alert.changeAlertType(KAlertDialog.ERROR_TYPE)
         alert.contentText = message
         alert.show()
+    }
+
+    private fun setupDialog(type: Int = KAlertDialog.SUCCESS_TYPE){
+        this.alert = KAlertDialog(this,type)
+        this.alert.titleText = "Sign Up"
     }
 
     private fun setupWatchers(){

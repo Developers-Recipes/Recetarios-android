@@ -17,13 +17,14 @@ class SignupModel(private val presenter: SignupContract.Presenter) : SignupContr
     private var passwordConfirmation: String = ""
     private val emailError  = "Incorrect e-mail format"
     private val passwordError = "Passwords Don't Match"
+    private val passwordLengthError = "Must contain at least 8 characters"
 
     override fun setName(name: String) {
         this.name = name
         presenter.enableOrDisableButton(verifyData())
     }
 
-    override fun setLastname(lastName: String) {
+    override fun setLastName(lastName: String) {
         this.lastName = lastName
         presenter.enableOrDisableButton(verifyData())
     }
@@ -37,9 +38,10 @@ class SignupModel(private val presenter: SignupContract.Presenter) : SignupContr
     override fun setPassword(password: String) {
         this.password = password
         presenter.enableOrDisableButton(verifyData())
+        verifyLengthPassword()
     }
 
-    override fun setPasswordConfimation(password: String) {
+    override fun setPasswordConfirmation(password: String) {
         this.passwordConfirmation =  password
         presenter.enableOrDisableButton(verifyData())
         confirmPassword()
@@ -71,7 +73,7 @@ class SignupModel(private val presenter: SignupContract.Presenter) : SignupContr
                 if (response.code() == 201){
                     presenter.showSuccessDialog("Register Successfully")
                 }else{
-                    presenter.showErrorDialog("Fail")
+                    presenter.showErrorDialog("Already exists an account with this email")
                 }
 
             }
@@ -89,17 +91,23 @@ class SignupModel(private val presenter: SignupContract.Presenter) : SignupContr
     override fun confirmPassword() {
         if(!TextUtils.isEmpty(this.passwordConfirmation))
             if (this.password != this.passwordConfirmation)
-                presenter.showPasswordError(passwordError)
+                presenter.showPasswordError(false, passwordError)
     }
 
     override fun verifyData(): Boolean {
 
         val nameData = !TextUtils.isEmpty(this.name) && !TextUtils.isEmpty(this.lastName)
         val passwordData = !TextUtils.isEmpty(this.password) && !TextUtils.isEmpty(this.passwordConfirmation) &&
-                (this.password == this.passwordConfirmation)
+                (this.password == this.passwordConfirmation) && this.password.length >= 8
 
         val emailData = !TextUtils.isEmpty(this.email) && Patterns.EMAIL_ADDRESS.matcher(this.email).matches()
 
         return nameData && passwordData && emailData
+    }
+
+    override fun verifyLengthPassword() {
+        if(!TextUtils.isEmpty(this.password))
+            if (this.password.length < 8)
+                presenter.showPasswordError(true, passwordLengthError)
     }
 }

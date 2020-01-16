@@ -3,19 +3,20 @@ package com.developers_recipes.recetario.contracts
 interface SignupContract {
     interface Model {
         fun setName(name: String)
-        fun setLastname(lastName: String)
+        fun setLastName(lastName: String)
         fun setEmail(email: String)
         fun setPassword(password: String)
-        fun setPasswordConfimation(password: String)
+        fun setPasswordConfirmation(password: String)
         fun signUp()
         fun verifyEmail()
         fun confirmPassword()
         fun verifyData() : Boolean
+        fun verifyLengthPassword()
     }
 
     interface View {
         fun showEmailError(error: String)
-        fun showPasswordError(error: String)
+        fun showPasswordError(first: Boolean = false, error: String)
         fun enableOrDisableButton(isEnabled: Boolean)
         fun showProgress()
         fun hideProgress()
@@ -31,7 +32,7 @@ interface SignupContract {
         fun setPassword(password: String)
         fun setPasswordConfirmation(password: String)
         fun showEmailError(error: String)
-        fun showPasswordError(error: String)
+        fun showPasswordError(first: Boolean = false, error: String)
         fun enableOrDisableButton(isEnabled: Boolean)
         fun showProgress()
         fun hideProgress()
