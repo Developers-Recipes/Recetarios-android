@@ -23,6 +23,7 @@ class LoginModel(private val presenter: LoginContract.Presenter) : LoginContract
 
     override fun saveUserData(token: TokenModel) {
         //save token in shared Preferences
+        println("LOGIN SUCCESS ${token.token}")
     }
 
     override fun authUser() {
