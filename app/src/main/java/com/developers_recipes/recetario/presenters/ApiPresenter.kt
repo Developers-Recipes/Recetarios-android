@@ -14,4 +14,8 @@ class ApiPresenter(private val view: ApiContract.View) : ApiContract.Presenter {
     override fun showApiVersion(version: String) {
         view.showApiVersion(version)
     }
+
+    override fun fetchApiVersion() {
+        (model as ApiVersion).getApiVersion()
+    }
 }
