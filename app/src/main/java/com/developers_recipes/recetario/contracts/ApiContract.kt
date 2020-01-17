@@ -14,5 +14,6 @@ interface ApiContract {
     interface Presenter{
         fun showApiVersion(version: String)
         fun setApiVersion(version: String)
+        fun fetchApiVersion()
     }
 }

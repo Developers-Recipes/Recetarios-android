@@ -6,38 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.developers_recipes.recetario.R
 import com.developers_recipes.recetario.contracts.ApiContract
 import com.developers_recipes.recetario.presenters.ApiPresenter
-import org.w3c.dom.Text
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ApiContract.View {
 
-    private lateinit var homeViewModel: HomeViewModel
-    private lateinit var presenter: ApiContract.Presenter
+    val presenter: ApiContract.Presenter = ApiPresenter(this)
 
+    private lateinit var appVersion: TextView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        homeViewModel =
-            ViewModelProviders.of(this).get(HomeViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_home, container, false)
 
-
-        val textView: TextView = root.findViewById(R.id.text_home)
-        homeViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
-
-        val appVersion: TextView = root.findViewById(R.id.appVersion)
-
-        homeViewModel.apiVersion.observe(this, Observer {
-            appVersion.text = it
-        })
+        appVersion = root.findViewById(R.id.appVersion)
+        presenter.fetchApiVersion()
         return root
+    }
+
+    override fun showApiVersion(version: String) {
+        appVersion.text = version
     }
 }
