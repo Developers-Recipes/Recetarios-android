@@ -1,10 +1,12 @@
 package com.developers_recipes.recetario.models
 
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import com.developers_recipes.recetario.contracts.LoginContract
 import com.developers_recipes.recetario.services.api.ApiClient
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 
 class LoginModel(private val presenter: LoginContract.Presenter) : LoginContract.Model {
@@ -22,8 +24,7 @@ class LoginModel(private val presenter: LoginContract.Presenter) : LoginContract
     }
 
     override fun saveUserData(token: TokenModel) {
-        //save token in shared Preferences
-        println("LOGIN SUCCESS ${token.token}")
+        //TODO: save token in shared Preferences
     }
 
     override fun authUser() {
@@ -32,19 +33,16 @@ class LoginModel(private val presenter: LoginContract.Presenter) : LoginContract
         val call = ApiClient.getInstance()?.auth(data)
         presenter.showProgress()
 
-        call?.enqueue(object : retrofit2.Callback<ApiResponse<TokenModel>> {
-            override fun onFailure(call: Call<ApiResponse<TokenModel>>, t: Throwable) {
+        call?.enqueue(object : Callback<TokenModel> {
+            override fun onFailure(call: Call<TokenModel>, t: Throwable) {
                 presenter.hideProgress()
                 presenter.authUser(false)
             }
 
-            override fun onResponse(
-                call: Call<ApiResponse<TokenModel>>,
-                response: Response<ApiResponse<TokenModel>>
-            ) {
+            override fun onResponse(call: Call<TokenModel>, response: Response<TokenModel>) {
                 presenter.hideProgress()
                 if (response.code() == 200) {
-                    response.body()?.result?.let { saveUserData(it) }
+                    response.body()?.let { saveUserData(it) }
                     presenter.authUser(true)
                 } else {
                     presenter.authUser(false)
