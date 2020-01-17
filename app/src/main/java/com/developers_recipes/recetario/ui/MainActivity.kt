@@ -1,5 +1,6 @@
 package com.developers_recipes.recetario.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.developers_recipes.recetario.services.api.ApiClient
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity(), ApiContract.View{
         setContentView(R.layout.activity_main)
 
         getApiVersion()
+
+        startActivity(Intent(this, LoginActivity::class.java))
     }
 
 

@@ -1,10 +1,13 @@
 package com.developers_recipes.recetario.utils
 
+import java.util.concurrent.TimeUnit
+
 class Constants {
     companion object{
 
-        val BASE_URL = "http://138.68.240.207/"
-        const val REQUEST_TIMEOUT_DURATION = 10
+        const val BASE_URL = "http://10.0.22.77:8000/"
+        const val REQUEST_TIMEOUT_DURATION = 30
+        val REQUEST_TIMEOUT_UNIT = TimeUnit.SECONDS
         const val DEBUG = true
 
     }
