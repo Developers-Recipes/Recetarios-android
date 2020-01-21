@@ -1,17 +1,12 @@
 package com.developers_recipes.recetario.services.api
 
-import com.developers_recipes.recetario.utils.Constants.Companion.BASE_URL
-import com.developers_recipes.recetario.utils.Constants.Companion.DEBUG
-import com.developers_recipes.recetario.utils.Constants.Companion.REQUEST_TIMEOUT_DURATION
-import com.developers_recipes.recetario.utils.Constants.Companion.REQUEST_TIMEOUT_UNIT
-import com.developers_recipes.recetario.utils.TokenInterceptor
+import com.developers_recipes.recetario.utils.*
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 
 object ApiClient{
 
